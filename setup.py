@@ -3,7 +3,7 @@
 from setuptools import setup
 
 
-setup(name='samh-kit',
+setup(name='samh_kit',
       version='0.0.1',
       description='example python package',
       author='Yuyang Han',

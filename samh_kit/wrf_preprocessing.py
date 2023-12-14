@@ -1,3 +1,8 @@
+import numpy as np
+import numpy.ma as ma
+import pandas as pd
+
+
 def ppm_to_ugm3(pol, t2, psfc, M):
     """
     Transform concentration from ppm to ugm⁻3
@@ -38,9 +43,31 @@ def ppm_convert_batch(ds, vars, dict_M=None):
 
     for var in vars:
         if var not in dict_M:
-            raise ValueError(f"Variable '{var}' not found in dict_M \n {dict_M}")
+            raise ValueError(
+                f"Variable '{var}' not found in dict_M \n {dict_M}"
+            )
 
     for var in vars:
         ds[var] = ppm_to_ugm3(ds[var], t2, psfc, dict_M[var])
 
     return ds
+
+
+def timezone_to_local(
+    data,
+    dim="time",
+    source_tz="UTC",
+    target_tz="Asia/Shanghai",
+    replace=True,
+):
+    time_sh = (
+        pd.to_datetime(data[dim])
+        .tz_localize(source_tz)
+        .tz_convert(target_tz)
+        .tz_localize(None)
+    )
+    if replace is True:
+        data.coords[dim] = time_sh
+    else:
+        data.coords["time_loc"] = time_sh
+    return data

@@ -4,7 +4,7 @@ from setuptools import setup
 
 
 setup(name='samh_kit',
-      version='0.0.3',
+      version='0.0.4',
       description='A kit package for samh',
       author='Han Yuyang',
       author_email='17766095120#163.com',
